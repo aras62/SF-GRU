@@ -1,5 +1,11 @@
 # SF-GRU
+
+<p align="center">
+<img src="bmvc_diagram.png" alt="sf-gru" align="middle" width="600"/>
+</p>
+
 This is the python implementation for paper **A. Rasouli, I. Kotseruba, and J. K. Tsotsos, "Pedestrian Action Anticipation using Contextual Feature Fusion in Stacked RNNs", BMVC 2019.**
+
 
 ### Table of contents
 * [Dependencies](#dependencies)
