@@ -544,7 +544,7 @@ class SFGRU(object):
                 else:
                     get_pose = self.get_poses_jaad
                 path_to_pose, _ = get_path(save_folder='poses/open_pose',
-                                                          dataset='pie',
+                                                          dataset=dataset,
                                                           save_root_folder='data/data/')
                 data[k]['pose'] = get_pose(data[k]['image'],
                                            data[k]['ped_id'], data_type=k,
