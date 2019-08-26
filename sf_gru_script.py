@@ -27,7 +27,7 @@ if dataset == 'pie':
 elif dataset == 'jaad':
     imdb = JAAD(data_path=environ.copy()['JAAD_PATH'])
 
-
+#NOTE: Poses should be in 'data/data/<dataset>/poses'
 train_test = 1  # 0 train, 1 train-test, 2 test
 
 # Path to the folder where the model are saved. ONly use if only test function is used
