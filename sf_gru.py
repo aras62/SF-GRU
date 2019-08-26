@@ -556,7 +556,7 @@ class SFGRU(object):
                 print('Generating local box %s' % k)
                 print('#####################################')
                 path_to_local_boxes, _ = get_path(save_folder='local_box',
-                                                  dataset='pie',
+                                                  dataset=dataset,
                                                   save_root_folder='data/data')
                 data[k]['local_box'] = self.load_images_crop_and_process(data[k]['image'],
                                                                          data[k]['box_org'], data[k]['ped_id'],
@@ -571,13 +571,13 @@ class SFGRU(object):
                 print('Generating local context %s' % k)
                 print('#####################################')
 
-                path_to_local_cotnext, _ = get_path(save_folder='local_context',
-                                                      dataset='pie',
+                path_to_local_context, _ = get_path(save_folder='local_context',
+                                                      dataset=dataset,
                                                       save_root_folder='data/data')
                 data[k]['local_context'] = self.load_images_crop_and_process(data[k]['image'],
                                                                              data[k]['box_org'], data[k]['ped_id'],
                                                                              data_type=k,
-                                                                             save_path=path_to_local_cotnext,
+                                                                             save_path=path_to_local_context,
                                                                              crop_type='surround',
                                                                              crop_resize_ratio=eratio)
                 data_type_sizes_dict['local_context'] = data[k]['local_context'].shape[1:]
