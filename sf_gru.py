@@ -517,7 +517,7 @@ class SFGRU(object):
                           'enlarge_ratio': 1.5,
                           'pred_target_type': ['crossing'],
                           'obs_length': 15,
-                          'time_to_event': 0,
+                          'time_to_event': 60,
                           'dataset': 'pie',
                           'normalize_boxes': True}
 
