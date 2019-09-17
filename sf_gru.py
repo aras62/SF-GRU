@@ -201,7 +201,7 @@ class SFGRU(object):
         sequences = np.array(sequences)
         return sequences
 
-    def get_poses_pie(self, img_sequences,
+    def get_pose(self, img_sequences,
                       ped_ids, file_path,
                       data_type='train'):
         """
@@ -219,7 +219,6 @@ class SFGRU(object):
         poses_all = []
         set_poses_list = os.listdir(file_path)
         set_poses = {}
-
         for s in set_poses_list:
             with open(os.path.join(file_path, s), 'rb') as fid:
                 try:
@@ -227,7 +226,7 @@ class SFGRU(object):
                 except:
                     p = pickle.load(fid, encoding='bytes')
             set_poses[s.split('.pkl')[0].split('_')[-1]] = p
-
+        print(set_poses.keys())
         i = -1
         for seq, pid in zip(img_sequences, ped_ids):
             i += 1
@@ -249,64 +248,6 @@ class SFGRU(object):
                         pose.append(self.flip_pose(set_poses[set_id][vid_id][k]))
                     else:
                         pose.append(set_poses[set_id][vid_id][k])
-                else:
-                    pose.append([0] * 36)
-            poses_all.append(pose)
-        poses_all = np.array(poses_all)
-        return poses_all
-
-    def get_poses_jaad(self, img_sequences,
-                       ped_ids, file_path,
-                       data_type='train'):
-        """
-        Reads the jaad poses from saved .pkl files
-        :param img_sequences: Sequences of image names
-        :param ped_ids: Sequences of pedestrian ids
-        :param file_path: Path to where poses are saved
-        :param data_type: Whether it is for training or testing
-        :return: Sequences of poses
-        """
-
-        print('\n#####################################')
-        print('Getting poses %s' % data_type)
-        print('#####################################')
-
-        poses_all = []
-        video_poses_list = os.listdir(file_path)
-        vid_poses = {}
-        for v in video_poses_list:
-            with open(os.path.join(file_path, v), 'rb') as fid:
-                try:
-                    p = pickle.load(fid)
-                except:
-                    p = pickle.load(fid, encoding='bytes')
-            vid_poses[v.split('.pkl')[0].split('pose_')[-1]] = p
-
-        i = -1
-        for seq, pid in zip(img_sequences, ped_ids):
-            i += 1
-            update_progress(i / len(img_sequences))
-            pose = []
-            for imp, p in zip(seq, pid):
-                flip_image = False
-                set_id = imp.split('/')[-3]
-                vid_id = imp.split('/')[-2]
-                img_name = imp.split('/')[-1].split('.')[0]
-                if 'flip' in img_name:
-                    img_name = img_name.replace('_flip', '')
-                    flip_image = True
-                k = img_name + '_' + p[0]
-
-                if k in vid_poses[vid_id].keys():
-                    # [nose, neck, Rsho, Relb, Rwri, Lsho, Lelb, Lwri, Rhip, Rkne,
-                    #  Rank, Lhip, Lkne, Lank, Leye, Reye, Lear, Rear, pt19]
-                    if flip_image:
-                        # self.display_pose(vid_poses[vid_id][k],'pose')
-                        flipped_pose = self.flip_pose(vid_poses[vid_id][k])
-                        pose.append(flipped_pose)
-                    # self.display_pose(flipped_pose,'flipped_pose')
-                    else:
-                        pose.append(vid_poses[vid_id][k])
                 else:
                     pose.append([0] * 36)
             poses_all.append(pose)
@@ -539,17 +480,16 @@ class SFGRU(object):
             # Poses
             if 'pose' in model_opts['obs_input_type']:
                 # get Poses
-                if dataset == 'pie':
-                    get_pose = self.get_poses_pie
-                else:
-                    get_pose = self.get_poses_jaad
+
                 path_to_pose, _ = get_path(save_folder='poses',
                                            dataset=dataset,
-                                           save_root_folder='data/data/')
-                data[k]['pose'] = get_pose(data[k]['image'],
+                                           save_root_folder='data/features')
+                print(path_to_pose)
+                data[k]['pose'] = self.get_pose(data[k]['image'],
                                            data[k]['ped_id'], data_type=k,
                                            file_path=path_to_pose)
                 data_type_sizes_dict['pose'] = data[k]['pose'].shape[1:]
+
             # crop only bounding boxes
             if 'local_box' in model_opts['obs_input_type']:
                 print('\n#####################################')
@@ -557,7 +497,7 @@ class SFGRU(object):
                 print('#####################################')
                 path_to_local_boxes, _ = get_path(save_folder='local_box',
                                                   dataset=dataset,
-                                                  save_root_folder='data/data')
+                                                  save_root_folder='data/features')
                 data[k]['local_box'] = self.load_images_crop_and_process(data[k]['image'],
                                                                          data[k]['box_org'], data[k]['ped_id'],
                                                                          data_type=k,
@@ -573,7 +513,7 @@ class SFGRU(object):
 
                 path_to_local_context, _ = get_path(save_folder='local_context',
                                                       dataset=dataset,
-                                                      save_root_folder='data/data')
+                                                      save_root_folder='data/features')
                 data[k]['local_context'] = self.load_images_crop_and_process(data[k]['image'],
                                                                              data[k]['box_org'], data[k]['ped_id'],
                                                                              data_type=k,
@@ -649,6 +589,7 @@ class SFGRU(object):
         # Set the path for saving models
         model_folder_name = time.strftime("%d%b%Y-%Hh%Mm%Ss")
         model_path, _ = get_path(save_folder=model_folder_name,
+                                 save_root_folder='data/models',
                                  file_name='model.h5')
 
         # Read train data

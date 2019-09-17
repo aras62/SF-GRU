@@ -29,7 +29,7 @@ the following external libraries:<br/>
 
 <a name="datasets"></a>
 ## Datasets
-The code is trained and tested with [JAAD](http://data.nvision2.eecs.yorku.ca/JAAD_dataset/) and [PIE](http://data.nvision2.eecs.yorku.ca/PIE_dataset/) datasets.
+The code is trained and tested with [PIE](http://data.nvision2.eecs.yorku.ca/PIE_dataset/) and [JAAD](http://data.nvision2.eecs.yorku.ca/JAAD_dataset/)  datasets. We used the keras implementation of [open-pose](https://github.com/rachit2403/Open-Pose-Keras) to generate poses for the PIE dataset. They can be found at `data/features/pie/poses`.
 
 
 <a name="train"></a>
@@ -62,7 +62,7 @@ information on how to set the parameters. <br/>
 `method_class.train()` trains the model and returns the path to the folder where model and data processing
 parameters are saved.
 
-A sample of training code can be found in `sf_gru_script.py`. All the default parameters in the script replicate the conditions in which the model was trained for the paper. Note that since `'random'` split data is used, the model may yield different performance at test time.
+A sample of training code can be found in `train_test.py`. All the default parameters in the script replicate the conditions in which the model was trained for the paper. Note that since `'random'` split data is used, the model may yield different performance at test time.
 
 
 <a name="test"></a>
@@ -79,13 +79,13 @@ imdb = PIE(data_path=environ.copy()['PIE_PATH'])
 
 method_class = SFGRU()
 beh_seq_test = imdb.generate_data_trajectory_sequence('test', **data_opts)
-saved_files_path = <path_to_model_folde>
+saved_files_path = <path_to_model_folder>
 acc , auc, f1, precision, recall = method_class.test(beh_seq_test, saved_files_path)
 ```
 The procedure is similar to train with the exception that there is no need to specify `model_opts` as they Are
 saved in the model folder at train time.<br/>
-In the case only test is run without training, `saved_files_path` should be specified. It should be the path to the folder where model and training parameters are saved. Note that if test follows train, the path is returned by `train()` function.<br/>
-`method_class.test()` test the performance of the model and return the results using the following 5 metrics `acc` (accuracy) , `auc` (area under curve), `f1`, `precision` and `recall`. A sample of training code can be found in `sf_gru_script.py`.
+In the case only test is run without training, `saved_files_path` should be specified. It should be the path to the folder where model and training parameters are saved. The final model used for the paper can be found at `data/models/pie/sf-rnn`. Note that if test follows train, the path is returned by `train()` function.<br/>
+`method_class.test()` test the performance of the model and return the results using the following 5 metrics `acc` (accuracy) , `auc` (area under curve), `f1`, `precision` and `recall`. A sample of training code can be found in `train_test.py`.
 
 
 <a name="citation"></a>
