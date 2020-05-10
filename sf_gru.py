@@ -612,17 +612,20 @@ class SFGRU(object):
 
         # Save data options and configurations
         model_opts_path, _ = get_path(save_folder=model_folder_name,
+                                      save_root_folder='data/models',
                                       file_name='model_opts.pkl')
         with open(model_opts_path, 'wb') as fid:
             pickle.dump(model_opts, fid, pickle.HIGHEST_PROTOCOL)
 
         config_path, _ = get_path(save_folder=model_folder_name,
+                                  save_root_folder='data/models',
                                   file_name='configs.txt')
         self.log_configs(config_path, batch_size, epochs,
                          lr, model_opts)
 
         # Save training history
         history_path, saved_files_path = get_path(save_folder=model_folder_name,
+                                                  save_root_folder='data/models',
                                                   file_name='history.pkl')
         with open(history_path, 'wb') as fid:
             pickle.dump(history.history, fid, pickle.HIGHEST_PROTOCOL)
