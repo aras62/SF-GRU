@@ -55,7 +55,7 @@ class SFGRU(object):
 
      Methods:
         load_images_crop_and_process: Reads the images and generate feature suquences for training
-        get_poses: TODO: decide on combining the poses ?
+        get_poses: gets the poses for PIE dataset
         flip_pose: Flips the pose joint coordinates
         get_data_sequence: Generates data sequences
         get_data_sequence_balance: Generates data sequences and balances positive and negative samples by augmentations
