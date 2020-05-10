@@ -43,14 +43,14 @@ from pie_data import PIE
 data_opts = { 'seq_type': 'crossing',
               'data_split_type': 'random',
                ... }
-imdb = PIE(data_path=environ.copy()['PIE_PATH'])
+imdb = PIE(data_path=<path_to_pie>)
 
 model_opts = {'obs_input_type': ['local_box', 'local_context', 'pose', 'box', 'speed'],
               ...}
 
 method_class = SFGRU()
 beh_seq_train = imdb.generate_data_trajectory_sequence('train', **data_opts)
-saved_files_path = method_class.train()
+saved_files_path = method_class.train(beh_seq_train)
 
 ```
 `from pie_data import PIE` imports the data interface. Download the interface from the corresponding annotation repository.<br/>
@@ -75,7 +75,7 @@ from pie_data import PIE
 data_opts = { 'seq_type': 'crossing',
               'data_split_type': 'random',
                ... }
-imdb = PIE(data_path=environ.copy()['PIE_PATH'])
+imdb = PIE(data_path=<path_to_pie>)
 
 method_class = SFGRU()
 beh_seq_test = imdb.generate_data_trajectory_sequence('test', **data_opts)
