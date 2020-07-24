@@ -432,6 +432,16 @@ class SFGRU(object):
         d['acts'] = d['acts'][:, 0, :].copy()
         return d
 
+    def get_model_opts(self, model_opts):
+        default_opts =  {'obs_input_type': ['local_box', 'local_context', 'pose', 'box','speed'],
+                      'enlarge_ratio': 1.5,
+                      'pred_target_type': ['crossing'],
+                      'obs_length': 15,
+                      'time_to_event': 60,
+                      'dataset': 'pie',
+                      'normalize_boxes': True}
+        default_opts.update(model_opts)
+        return default_opts
     def get_data(self, data_raw, model_opts):
         """
         Generates train/test data
@@ -453,14 +463,7 @@ class SFGRU(object):
         data = {}
         data_type_sizes_dict = {}
 
-        if model_opts is None:
-            model_opts = {'obs_input_type': ['local_box', 'local_context', 'pose', 'box','speed'],
-                          'enlarge_ratio': 1.5,
-                          'pred_target_type': ['crossing'],
-                          'obs_length': 15,
-                          'time_to_event': 60,
-                          'dataset': 'pie',
-                          'normalize_boxes': True}
+        model_opts = self.get_model_opts(model_opts)
 
         obs_length = model_opts['obs_length']
         time_to_event = model_opts['time_to_event']
