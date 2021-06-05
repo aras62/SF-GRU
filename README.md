@@ -103,10 +103,10 @@ If you use our dataset, please cite:
 <a name="authors"></a>
 ## Authors
 
-* **[Amir Rasouli](http://www.cse.yorku.ca/~aras/index.html)**
+* **[Amir Rasouli](https://aras62.github.io/)**
 * **[Iuliia Kotseruba](http://www.cse.yorku.ca/~yulia_k/)**
 
-Please send email to aras@eecs.yorku.ca or yulia_k@eecs.yorku.ca if there are any problems with downloading or using the data.
+Please send email to arasouli.ai@gmail.com or yulia_k@eecs.yorku.ca if there are any problems with downloading or using the data.
 
 <a name="license"></a>
 ## License
